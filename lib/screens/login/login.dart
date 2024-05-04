@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 200),
           color: Colors.deepPurple.shade200,
           child: Center(
             child: Container(
@@ -18,7 +18,13 @@ class LoginScreen extends StatelessWidget {
               color: Colors.white,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("Login", style: headline1), LoginForm()],
+                children: [
+                  Text("Login", style: headline1),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  LoginForm()
+                ],
               ),
             ),
           ),

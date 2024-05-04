@@ -37,6 +37,7 @@ class _LoginFormState extends State<LoginForm> {
                 return null;
               },
             ),
+            SizedBox(height: 12),
             TextFormField(
               obscureText: true,
               decoration: const InputDecoration(
@@ -48,6 +49,7 @@ class _LoginFormState extends State<LoginForm> {
                 return null;
               },
             ),
+            SizedBox(height: 24),
             ElevatedButton(onPressed: _submit, child: Text("Iniciar sesión")),
           ],
         ),
