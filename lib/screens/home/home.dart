@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g3_app_mobile/screens/home/last_results.dart';
 import 'package:g3_app_mobile/screens/home/last_uploads.dart';
+import 'package:g3_app_mobile/screens/scans/scans.dart';
 import 'package:g3_app_mobile/styles.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,24 +10,30 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.only(left: 16, top: 24),
-          color: Colors.deepPurple.shade200,
-          child: const Column(
-            children: [
-              Text(
-                "Bienvenido",
-                style: headline1,
-              ),
-              SizedBox(height: 16),
-              LastUploads(),
-              SizedBox(height: 48),
-              LastResults()
-            ],
+        body: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.only(left: 16, top: 24),
+            color: Colors.deepPurple.shade200,
+            child: const Column(
+              children: [
+                Text(
+                  "Bienvenido",
+                  style: headline1,
+                ),
+                SizedBox(height: 16),
+                LastUploads(),
+                SizedBox(height: 48),
+                LastResults()
+              ],
+            ),
           ),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ScansScreen()));
+          },
+          child: const Icon(Icons.add),
+        ));
   }
 }
