@@ -1,5 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:g3_app_mobile/models/auth.model.dart';
+import 'package:provider/provider.dart';
+// import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:g3_app_mobile/screens/login/login.dart';
 
@@ -8,7 +10,10 @@ void main() async {
 //     options: DefaultFirebaseOptions.currentPlatform,
 // );
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => AuthModel(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

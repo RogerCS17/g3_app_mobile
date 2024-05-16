@@ -15,18 +15,25 @@ class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  bool _isSignUp = false;
+  String _signUpError = "";
 
   void _submit() async {
     setState(() {
-      _isSignUp = true;
+      _signUpError = "";
     });
     var isValid = _formKey.currentState!.validate();
     if (!isValid) return;
-    await postRegisterUser(_email.text, _password.text);
-    setState(() {
-      _isSignUp = true;
-    });
+    var res = await postRegisterUser(_email.text, _password.text, context);
+    if (res != "") {
+      setState(() {
+        _signUpError = getError(res);
+      });
+      return;
+    } else {
+      setState(() {
+        _signUpError = "Registrado ${_email.text} exitosamente!";
+      });
+    }
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
@@ -63,8 +70,8 @@ class _SignUpFormState extends State<SignUpForm> {
               },
             ),
             const SizedBox(height: 24),
-            _isSignUp
-                ? Text("Registrado ${_email.text} exitosamente!")
+            _signUpError != ""
+                ? Text("Error al registrar ${_email.text}: $_signUpError")
                 : const SizedBox(),
             ElevatedButton(onPressed: _submit, child: const Text("Registrar")),
           ],
