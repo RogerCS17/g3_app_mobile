@@ -47,8 +47,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 LastUploads(),
                 SizedBox(height: 48),
-                LastResults(),
-                Identifier()
+                LastResults()
               ],
             ),
           ),
