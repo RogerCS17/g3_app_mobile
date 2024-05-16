@@ -3,10 +3,11 @@ import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:g3_app_mobile/screens/login/login.dart';
 
-void main() async{
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-);
+void main() async {
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+// );
+
   runApp(const MyApp());
 }
 

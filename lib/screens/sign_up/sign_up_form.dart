@@ -4,26 +4,29 @@ import 'package:g3_app_mobile/screens/home/home.dart';
 import 'package:g3_app_mobile/styles.dart';
 import 'package:g3_app_mobile/utils.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  bool _isLoginError = false;
+  bool _isSignUp = false;
 
   void _submit() async {
     setState(() {
-      _isLoginError = false;
+      _isSignUp = true;
     });
     var isValid = _formKey.currentState!.validate();
     if (!isValid) return;
-    await postLoginUser(_email.text, _password.text);
+    await postRegisterUser(_email.text, _password.text);
+    setState(() {
+      _isSignUp = true;
+    });
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
@@ -46,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
                 return null;
               },
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             TextFormField(
               controller: _password,
               obscureText: true,
@@ -60,11 +63,10 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             const SizedBox(height: 24),
-            _isLoginError
-                ? Text("Error al iniciar sesión con ${_email.text}")
+            _isSignUp
+                ? Text("Registrado ${_email.text} exitosamente!")
                 : const SizedBox(),
-            ElevatedButton(
-                onPressed: _submit, child: const Text("Iniciar sesión")),
+            ElevatedButton(onPressed: _submit, child: const Text("Registrar")),
           ],
         ),
       ),
