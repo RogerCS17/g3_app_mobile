@@ -8,6 +8,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 200),
@@ -16,17 +17,23 @@ class SignUpScreen extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16),
               color: Colors.white,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Registrate", style: headline1),
-                  SizedBox(
+                  const Text("Registrate", style: headline1),
+                  const SizedBox(
                     height: 24,
                   ),
-                  SignUpForm(),
-                  SizedBox(
+                  const SignUpForm(),
+                  const SizedBox(
                     height: 24,
                   ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Volver a Inicio de sesión"),
+                  )
                 ],
               ),
             ),

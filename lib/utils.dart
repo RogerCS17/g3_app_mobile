@@ -24,3 +24,14 @@ Future<void> storePreferences(Map<String, dynamic> preferences) async {
     }
   });
 }
+
+String getError(String error) {
+  switch (error) {
+    case "INVALID_LOGIN_CREDENTIALS":
+      return "Correo o contraseña inválidas";
+    case "EMAIL_EXISTS":
+      return "El correo ya está registrado";
+    default:
+      return "Ha ocurrido un error";
+  }
+}

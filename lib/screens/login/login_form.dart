@@ -15,15 +15,21 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  bool _isLoginError = false;
+  String _loginError = "";
 
   void _submit() async {
     setState(() {
-      _isLoginError = false;
+      _loginError = "";
     });
     var isValid = _formKey.currentState!.validate();
     if (!isValid) return;
-    await postLoginUser(_email.text, _password.text);
+    var res = await postLoginUser(_email.text, _password.text, context);
+    if (res != "") {
+      setState(() {
+        _loginError = getError(res);
+      });
+      return;
+    }
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
@@ -60,8 +66,9 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             const SizedBox(height: 24),
-            _isLoginError
-                ? Text("Error al iniciar sesión con ${_email.text}")
+            _loginError != ""
+                ? Text(
+                    "Error al iniciar sesión con ${_email.text}:  $_loginError")
                 : const SizedBox(),
             ElevatedButton(
                 onPressed: _submit, child: const Text("Iniciar sesión")),
