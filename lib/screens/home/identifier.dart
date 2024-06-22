@@ -11,7 +11,7 @@ class Identifier extends StatelessWidget {
       builder: (context, auth, child) {
         return Text(
           style: const TextStyle(fontSize: 14),
-          auth.email ?? "",
+          auth.name ?? auth.email ?? "",
         );
       },
     );

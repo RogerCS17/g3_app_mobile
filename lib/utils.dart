@@ -5,7 +5,7 @@ bool isEmail(String value) {
 }
 
 bool isValidPassword(String value) {
-  return RegExp(r"^[a-zA-Z\d]{8,}$").hasMatch(value);
+  return RegExp(r"^['a-zA-Z\d]{8,}$").hasMatch(value);
 }
 
 Future<void> storePreferences(Map<String, dynamic> preferences) async {
@@ -27,11 +27,11 @@ Future<void> storePreferences(Map<String, dynamic> preferences) async {
 
 String getError(String error) {
   switch (error) {
-    case "INVALID_LOGIN_CREDENTIALS":
+    case "Invalid credentials":
       return "Correo o contraseña inválidas";
-    case "EMAIL_EXISTS":
+    case "Email already exists":
       return "El correo ya está registrado";
     default:
-      return "Ha ocurrido un error";
+      return error;
   }
 }

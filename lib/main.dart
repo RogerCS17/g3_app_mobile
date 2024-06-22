@@ -1,5 +1,6 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:g3_app_mobile/models/auth.model.dart';
+import 'package:g3_app_mobile/models/scans.model.dart';
 import 'package:provider/provider.dart';
 // import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,15 @@ void main() async {
 //     options: DefaultFirebaseOptions.currentPlatform,
 // );
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => AuthModel(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => AuthModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ScanModel(),
+      )
+    ],
     child: const MyApp(),
   ));
 }
@@ -40,7 +48,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 181, 186, 233)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 181, 186, 233)),
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),

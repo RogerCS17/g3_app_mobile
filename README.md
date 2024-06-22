@@ -1,6 +1,10 @@
 # g3_app_mobile
 
-A new Flutter project.
+A Mobile App Which Purpose is to Detect Cancer with AI.
+
+## Backend
+
+Refer to this project: https://github.com/seb-hdz/g3_app_movil_back
 
 ## Getting Started
 
