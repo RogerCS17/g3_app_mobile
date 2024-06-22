@@ -16,3 +16,11 @@ Future<String> postScan(String imageData64, BuildContext context) async {
 
   return "";
 }
+
+Future getScans(BuildContext context) async {
+  final headers = buildHeaders(context);
+  var res = await http.get(Uri.parse("$apiURL/scans"), headers: headers);
+  if (res.statusCode > 399) return jsonDecode(res.body)["message"];
+
+  return jsonDecode(res.body);
+}
