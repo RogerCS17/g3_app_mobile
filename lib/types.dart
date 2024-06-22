@@ -8,9 +8,38 @@ abstract class Scan {
   set url(String url);
 }
 
-class ScanOrString {
-  final Scan? scan;
-  final String? string;
+class ScanImpl implements Scan {
+  @override
+  final String id;
 
-  ScanOrString({this.scan, this.string});
+  @override
+  final String userId;
+
+  @override
+  final String url;
+
+  ScanImpl({required this.id, required this.userId, required this.url});
+
+  @override
+  set id(String id) {
+    id = id;
+  }
+
+  @override
+  set userId(String userId) {
+    userId = userId;
+  }
+
+  @override
+  set url(String url) {
+    url = url;
+  }
+
+  factory ScanImpl.fromJson(Map<String, dynamic> json) {
+    return ScanImpl(
+      id: json['id'],
+      userId: json['userId'],
+      url: json['url'],
+    );
+  }
 }

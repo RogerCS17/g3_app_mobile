@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:g3_app_mobile/common.dart';
+import 'package:g3_app_mobile/types.dart';
 import 'package:http/http.dart' as http;
 
 const apiURL = "http://10.0.2.2:3000";
@@ -22,5 +23,7 @@ Future getScans(BuildContext context) async {
   var res = await http.get(Uri.parse("$apiURL/scans"), headers: headers);
   if (res.statusCode > 399) return jsonDecode(res.body)["message"];
 
-  return jsonDecode(res.body);
+  Iterable data = jsonDecode(res.body);
+  List<Scan?> scans = List<Scan?>.from(data.map((s) => ScanImpl.fromJson(s)));
+  return scans;
 }

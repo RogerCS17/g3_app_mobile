@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g3_app_mobile/services/scans.services.dart';
 import 'package:g3_app_mobile/styles.dart';
+import 'package:g3_app_mobile/types.dart';
 
 class LastUploads extends StatefulWidget {
   const LastUploads({super.key});
@@ -10,7 +11,7 @@ class LastUploads extends StatefulWidget {
 }
 
 class _LastUploadsState extends State<LastUploads> {
-  List<dynamic> _uploads = [];
+  List<Scan?> _uploads = [];
 
   retrieveData() async {
     final res = await getScans(context);
@@ -26,18 +27,17 @@ class _LastUploadsState extends State<LastUploads> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => retrieveData());
-  }
-
-  @override
   Widget build(BuildContext context) {
     Widget renderContent() {
       final lastScans = _uploads.take(3).toList();
-      if (lastScans.isEmpty) return SizedBox();
+      if (lastScans.isEmpty) {
+        return TextButton(
+          onPressed: () async => await retrieveData(),
+          child: Text("Cargar datos"),
+        );
+      }
       final children = (lastScans)
-          .map<Widget>((u) => u["url"] != null
+          .map<Widget>((u) => u?.url != null
               ? SizedBox(
                   width: 100,
                   height: 100,
