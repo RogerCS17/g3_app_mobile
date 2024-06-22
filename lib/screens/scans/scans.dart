@@ -1,4 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:g3_app_mobile/models/scans.model.dart';
+import 'package:g3_app_mobile/screens/scans/main_scan.dart';
+import 'package:g3_app_mobile/screens/scans/mini_scan.dart';
+import 'package:g3_app_mobile/screens/scans/scans_success.dart';
+import 'package:g3_app_mobile/services/scans.services.dart';
+import 'package:provider/provider.dart';
 
 class ScansScreen extends StatelessWidget {
   const ScansScreen({super.key});
@@ -21,55 +29,46 @@ class ScansScreen extends StatelessWidget {
         color: Colors.deepPurple.shade200,
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 96),
-              color: Colors.white,
-              child: const Column(
-                children: [
-                  Icon(Icons.camera_alt_outlined, size: 48),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    "Presiona aquí para subir una nueva muestra desde la cámara o galería",
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ),
+            MainScan(),
             const SizedBox(
               height: 8,
             ),
             Row(
-              children: [
-                Container(
-                  color: Colors.white,
-                  width: 48,
-                  height: 48,
-                ),
-                const SizedBox(
+              children: const [
+                MiniScan(id: 1),
+                SizedBox(
                   width: 8,
                 ),
-                Container(
-                  color: Colors.white,
-                  width: 48,
-                  height: 48,
-                ),
-                const SizedBox(
+                MiniScan(id: 2),
+                SizedBox(
                   width: 8,
                 ),
-                Container(
-                  color: Colors.white,
-                  width: 48,
-                  height: 48,
-                ),
+                MiniScan(id: 3),
               ],
             ),
             const SizedBox(
               height: 48,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final scans =
+                    Provider.of<ScanModel>(context, listen: false).scans;
+
+                try {
+                  for (final scan in scans) {
+                    if (scan == null) return;
+                    List<int> bytes = scan.readAsBytesSync();
+                    var res = await postScan(base64Encode(bytes), context);
+                    if (res != "") {
+                      return;
+                    }
+                  }
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ScansSuccess()));
+                } catch (e) {
+                  print(e);
+                }
+              },
               child: Text("Subir"),
             ),
             const Text(

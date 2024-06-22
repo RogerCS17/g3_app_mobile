@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:g3_app_mobile/auth.dart';
+import 'package:g3_app_mobile/services/auth.services.dart';
 import 'package:g3_app_mobile/screens/home/home.dart';
 import 'package:g3_app_mobile/styles.dart';
 import 'package:g3_app_mobile/utils.dart';
