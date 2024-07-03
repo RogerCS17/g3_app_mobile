@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:g3_app_mobile/screens/scans/all_scans.dart';
+import 'package:g3_app_mobile/screens/scans/scan_item.dart';
 import 'package:g3_app_mobile/services/scans.services.dart';
 import 'package:g3_app_mobile/styles.dart';
 import 'package:g3_app_mobile/types.dart';
+import 'package:g3_app_mobile/utils.dart';
 
 class LastUploads extends StatefulWidget {
   const LastUploads({super.key});
@@ -13,14 +16,9 @@ class LastUploads extends StatefulWidget {
 class _LastUploadsState extends State<LastUploads> {
   List<Scan?> _uploads = [];
 
-  retrieveData() async {
-    final res = await getScans(context);
-    if (res is String) {
-      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(res),
-        backgroundColor: Colors.red,
-      ));
-    }
+  retrieveData([int? limit]) async {
+    final res = await getScans(context, limit);
+    if (res is String) return showNotification(context, res, "error");
     setState(() {
       _uploads = res;
     });
@@ -29,25 +27,17 @@ class _LastUploadsState extends State<LastUploads> {
   @override
   Widget build(BuildContext context) {
     Widget renderContent() {
-      final lastScans = _uploads.take(3).toList();
+      final lastScans = _uploads;
       if (lastScans.isEmpty) {
         return TextButton(
-          onPressed: () async => await retrieveData(),
+          onPressed: () async => await retrieveData(3),
           child: Text("Cargar datos"),
         );
       }
       final children = (lastScans)
-          .map<Widget>((u) => u?.url != null
-              ? SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: Image.network(u?.url ?? ""),
-                )
-              : Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey,
-                ))
+          .map<Widget>((u) => ScanItem(
+                url: u?.url,
+              ))
           .toList();
       return Row(
         children: children.toList(),
@@ -59,14 +49,19 @@ class _LastUploadsState extends State<LastUploads> {
       color: Colors.white,
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Últimas subidas",
                 style: headline3,
               ),
-              TextButton(onPressed: null, child: Text("Ver todas")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (ctx) => AllScans()));
+                  },
+                  child: Text("Ver todas")),
             ],
           ),
           renderContent(),

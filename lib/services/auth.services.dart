@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:g3_app_mobile/common.dart';
+import 'package:g3_app_mobile/constants.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:g3_app_mobile/models/auth.model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-
-const apiURL = "http://10.0.2.2:3000";
 
 Future<String> postRegisterUser(
     String email, String password, BuildContext context) async {
