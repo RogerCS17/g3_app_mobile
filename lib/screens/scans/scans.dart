@@ -7,9 +7,19 @@ import 'package:g3_app_mobile/screens/scans/mini_scan.dart';
 import 'package:g3_app_mobile/screens/scans/scans_success.dart';
 import 'package:g3_app_mobile/services/scans.services.dart';
 import 'package:provider/provider.dart';
+import 'package:g3_app_mobile/utils.dart';
 
 class ScansScreen extends StatelessWidget {
   const ScansScreen({super.key});
+
+  uploadScan(List<int> bytes, BuildContext context) async {
+    var res = await postScan(base64Encode(bytes), context);
+    if (!res.isEmpty) {
+      return showNotification(context, res, "error");
+    }
+    // TODO: get model prediction
+    // TODO: save model prediction to DB with postResult
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +65,20 @@ class ScansScreen extends StatelessWidget {
                     Provider.of<ScanModel>(context, listen: false).scans;
 
                 try {
+                  if (scans.every((s) => s == null)) {
+                    return showNotification(
+                        context, "No hay muestras para subir", "warning");
+                  }
+
                   for (final scan in scans) {
-                    if (scan == null) return;
-                    List<int> bytes = scan.readAsBytesSync();
-                    var res = await postScan(base64Encode(bytes), context);
-                    if (res != "") {
-                      return;
+                    if (scan != null) {
+                      List<int> bytes = scan.readAsBytesSync();
+                      await uploadScan(bytes, context);
                     }
                   }
+
+                  Provider.of<ScanModel>(context, listen: false).reset();
+
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ScansSuccess()));
                 } catch (e) {

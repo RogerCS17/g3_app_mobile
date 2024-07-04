@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isEmail(String value) {
@@ -34,4 +35,18 @@ String getError(String error) {
     default:
       return error;
   }
+}
+
+void showNotification(BuildContext context, String message, String type) {
+  Color? color;
+  if (type == "error") color = Colors.red;
+  if (type == "success") color = Colors.green;
+  if (type == "info") color = Colors.blue;
+  if (type == "warning") color = Colors.orange;
+
+  if (color == null) return;
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(message),
+    backgroundColor: color,
+  ));
 }

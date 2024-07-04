@@ -11,7 +11,7 @@ class ScanModel extends ChangeNotifier {
 
   List<File?> get scans => [mainScan, miniScan1, miniScan2, miniScan3];
 
-  void setScan(File scan, int index) {
+  void setScan(File? scan, int index) {
     switch (index) {
       case 0:
         mainScan = scan;
@@ -26,6 +26,14 @@ class ScanModel extends ChangeNotifier {
         miniScan3 = scan;
         break;
     }
+    notifyListeners();
+  }
+
+  void reset() {
+    mainScan = null;
+    miniScan1 = null;
+    miniScan2 = null;
+    miniScan3 = null;
     notifyListeners();
   }
 }
