@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:g3_app_mobile/screens/results/results_details.dart';
+import 'package:g3_app_mobile/types.dart';
+import 'package:g3_app_mobile/utils.dart';
 
 class LastResultItem extends StatelessWidget {
-  final String result;
+  final Result? result;
   final bool isLast;
   const LastResultItem({super.key, required this.result, this.isLast = false});
 
@@ -24,18 +27,28 @@ class LastResultItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    result,
+                    formatTimestamp(result?.updatedAt ?? ""),
                     style: TextStyle(color: color),
                   ),
-                  Text(
-                    "23 de enero, 2024",
-                    style: TextStyle(color: color),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 200),
+                    child: Text(
+                      "#${result?.id}",
+                      style: TextStyle(color: color, fontSize: 10),
+                    ),
                   ),
                 ],
               )
             ],
           ),
-          Icon(Icons.arrow_forward, color: color)
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResultsDetails(result: result)));
+              },
+              icon: Icon(Icons.arrow_forward, color: color))
         ],
       ),
     );

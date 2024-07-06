@@ -12,10 +12,12 @@ abstract class Result {
   String get id;
   String get scanId;
   String get scanUrl;
+  String get updatedAt;
 
   set id(String id);
   set scanId(String scanId);
   set scanUrl(String scanUrl);
+  set updatedAt(String updatedAt);
 }
 
 class ScanImpl implements Scan {
@@ -64,7 +66,14 @@ class ResultImpl implements Result {
   @override
   final String scanUrl;
 
-  ResultImpl({required this.id, required this.scanId, required this.scanUrl});
+  @override
+  final String updatedAt;
+
+  ResultImpl(
+      {required this.id,
+      required this.scanId,
+      required this.scanUrl,
+      required this.updatedAt});
 
   @override
   set id(String id) {
@@ -81,11 +90,17 @@ class ResultImpl implements Result {
     scanUrl = scanUrl;
   }
 
+  @override
+  set updatedAt(String updatedAt) {
+    updatedAt = updatedAt;
+  }
+
   factory ResultImpl.fromJson(Map<String, dynamic> json) {
     return ResultImpl(
       id: json['id'],
       scanId: json['scanId'],
       scanUrl: json['scanUrl'],
+      updatedAt: json['updatedAt'],
     );
   }
 }

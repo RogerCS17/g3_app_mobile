@@ -1,24 +1,53 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:g3_app_mobile/classifier.dart';
 import 'package:g3_app_mobile/models/scans.model.dart';
 import 'package:g3_app_mobile/screens/scans/main_scan.dart';
 import 'package:g3_app_mobile/screens/scans/mini_scan.dart';
 import 'package:g3_app_mobile/screens/scans/scans_success.dart';
+import 'package:g3_app_mobile/services/results.services.dart';
 import 'package:g3_app_mobile/services/scans.services.dart';
 import 'package:provider/provider.dart';
 import 'package:g3_app_mobile/utils.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ScansScreen extends StatelessWidget {
   const ScansScreen({super.key});
 
   uploadScan(List<int> bytes, BuildContext context) async {
     var res = await postScan(base64Encode(bytes), context);
-    if (!res.isEmpty) {
+    if (!res.startsWith("http")) {
       return showNotification(context, res, "error");
     }
-    // TODO: get model prediction
-    // TODO: save model prediction to DB with postResult
+    final url = res.split("*")[0];
+    final id = res.split("*")[1];
+    final converted = await convert(url);
+    if (converted["input"] == null || converted["output"] == null) {
+      showNotification(context, "Image conversion failed", "error");
+    }
+
+    try {
+      final Interpreter _interpreter = await Interpreter.fromAsset(
+          "assets/model.tflite",
+          options: InterpreterOptions()..threads = 4);
+      _interpreter.allocateTensors();
+
+      _interpreter.run(converted["input"], converted["output"]);
+
+      final predicition = converted["output"][0] as List<double>;
+      double maxElement = predicition.reduce(
+        (double maxElement, double element) =>
+            element > maxElement ? element : maxElement,
+      );
+
+      final result = DetectionClasses.values[predicition.indexOf(maxElement)];
+
+      if (id.isEmpty) return Exception("Scan ID not found");
+      await postResult(url, id, result.toBoolean(), context);
+    } catch (e) {
+      showNotification(context, "Error al cargar el modelo: $e", "error");
+    }
   }
 
   @override
