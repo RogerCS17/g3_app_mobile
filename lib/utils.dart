@@ -38,7 +38,7 @@ String getError(String error) {
 }
 
 void showNotification(BuildContext context, String message, String type) {
-  Color? color;
+  MaterialColor? color;
   if (type == "error") color = Colors.red;
   if (type == "success") color = Colors.green;
   if (type == "info") color = Colors.blue;
@@ -49,4 +49,10 @@ void showNotification(BuildContext context, String message, String type) {
     content: Text(message),
     backgroundColor: color,
   ));
+}
+
+String formatTimestamp(String timestamp) {
+  if (timestamp.isEmpty) return "";
+  final date = DateTime.parse(timestamp);
+  return "${date.day}/${date.month}/${date.year}";
 }

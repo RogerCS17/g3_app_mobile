@@ -14,7 +14,7 @@ Future<String> postScan(String imageData64, BuildContext context) async {
       await http.post(Uri.parse("$apiURL/scans"), headers: headers, body: body);
   if (res.statusCode > 399) return jsonDecode(res.body)["message"];
 
-  return "";
+  return "${jsonDecode(res.body)["url"]}*${jsonDecode(res.body)["id"]}";
 }
 
 Future getScans(BuildContext context, [int? limit]) async {
