@@ -51,7 +51,7 @@ class _ResultsDetailsState extends State<ResultsDetails> {
                                 "Evaluación de resultados",
                                 style: headline3,
                               ),
-                              Text(formatTimestamp(
+                              Text(formatDateString(
                                   widget.result?.updatedAt ?? ""))
                             ],
                           )
