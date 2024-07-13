@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 bool isEmail(String value) {
   return RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
@@ -51,8 +52,9 @@ void showNotification(BuildContext context, String message, String type) {
   ));
 }
 
-String formatTimestamp(String timestamp) {
-  if (timestamp.isEmpty) return "";
-  final date = DateTime.parse(timestamp);
-  return "${date.day}/${date.month}/${date.year}";
+String formatDateString(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString);
+  DateFormat formatter = DateFormat('dd/MM/yyyy - HH:mm');
+  String formatted = formatter.format(dateTime);
+  return formatted;
 }

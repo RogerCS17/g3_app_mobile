@@ -34,7 +34,7 @@ Future<Map<String, dynamic>> convert(String imageUrl) async {
     }
 
     final input = bytes.reshape([1, 240, 240, 3]);
-    final output = Float32List(1 * 4).reshape([1, 4]);
+    final output = Float32List(1 * 1).reshape([1, 1]);
     return {"input": input, "output": output};
   } catch (e) {
     print(e);
