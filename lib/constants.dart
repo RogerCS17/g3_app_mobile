@@ -1,1 +1,2 @@
-const apiURL = "http://10.0.2.2:3000";
+const apiURL = "https://g3appmovilback-production.up.railway.app";
+const DEFAULT_AUTHORIZER = "Anonymous";
