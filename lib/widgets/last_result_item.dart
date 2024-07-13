@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:g3_app_mobile/screens/results/results_details.dart';
 import 'package:g3_app_mobile/types.dart';
 import 'package:g3_app_mobile/utils.dart';
 
@@ -27,7 +26,7 @@ class LastResultItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    formatTimestamp(result?.updatedAt ?? ""),
+                    formatDateString(result?.updatedAt ?? ""),
                     style: TextStyle(color: color),
                   ),
                   ConstrainedBox(
@@ -41,14 +40,6 @@ class LastResultItem extends StatelessWidget {
               )
             ],
           ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ResultsDetails(result: result)));
-              },
-              icon: Icon(Icons.arrow_forward, color: color))
         ],
       ),
     );

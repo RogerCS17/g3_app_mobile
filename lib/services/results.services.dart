@@ -27,7 +27,7 @@ Future getResults(BuildContext context, [int? limit]) async {
   if (res.statusCode > 399) return jsonDecode(res.body)["message"];
 
   Iterable data = jsonDecode(res.body);
-  List<Result?> results =
-      List<Result?>.from(data.map((s) => ResultImpl.fromJson(s)));
+  List<Result> results =
+      List<Result>.from(data.map((s) => ResultImpl.fromJson(s)));
   return results;
 }

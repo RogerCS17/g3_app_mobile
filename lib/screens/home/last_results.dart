@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:g3_app_mobile/screens/results/all_results.dart';
 import 'package:g3_app_mobile/services/results.services.dart';
 import 'package:g3_app_mobile/styles.dart';
 import 'package:g3_app_mobile/types.dart';
@@ -60,7 +61,14 @@ class _LastResultsState extends State<LastResults> {
               Container(
                 color: Colors.white,
                 padding: const EdgeInsets.all(8),
-                child: TextButton(onPressed: null, child: Text("Ver Todos")),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AllResults()));
+                    },
+                    child: Text("Ver Todos")),
               )
             ],
           ),

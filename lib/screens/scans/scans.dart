@@ -35,16 +35,10 @@ class ScansScreen extends StatelessWidget {
 
       _interpreter.run(converted["input"], converted["output"]);
 
-      final predicition = converted["output"][0] as List<double>;
-      double maxElement = predicition.reduce(
-        (double maxElement, double element) =>
-            element > maxElement ? element : maxElement,
-      );
-
-      final result = DetectionClasses.values[predicition.indexOf(maxElement)];
-
+      final prediction = converted["output"][0] as List<double>;
+      final isSick = prediction.first > 0.5;
       if (id.isEmpty) return Exception("Scan ID not found");
-      await postResult(url, id, result.toBoolean(), context);
+      await postResult(url, id, isSick, context);
     } catch (e) {
       showNotification(context, "Error al cargar el modelo: $e", "error");
     }

@@ -13,11 +13,13 @@ abstract class Result {
   String get scanId;
   String get scanUrl;
   String get updatedAt;
+  bool get hasCancer;
 
   set id(String id);
   set scanId(String scanId);
   set scanUrl(String scanUrl);
   set updatedAt(String updatedAt);
+  set hasCancer(bool hasCancer);
 }
 
 class ScanImpl implements Scan {
@@ -69,11 +71,15 @@ class ResultImpl implements Result {
   @override
   final String updatedAt;
 
+  @override
+  final bool hasCancer;
+
   ResultImpl(
       {required this.id,
       required this.scanId,
       required this.scanUrl,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.hasCancer});
 
   @override
   set id(String id) {
@@ -95,12 +101,18 @@ class ResultImpl implements Result {
     updatedAt = updatedAt;
   }
 
+  @override
+  set hasCancer(bool hasCancer) {
+    hasCancer = hasCancer;
+  }
+
   factory ResultImpl.fromJson(Map<String, dynamic> json) {
     return ResultImpl(
       id: json['id'],
       scanId: json['scanId'],
       scanUrl: json['scanUrl'],
       updatedAt: json['updatedAt'],
+      hasCancer: json['hasCancer'],
     );
   }
 }
